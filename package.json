@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^0.25.0",
@@ -12,5 +13,9 @@
     "ngrok": "^4.2.2",
     "path": "^0.12.7",
     "twilio": "^3.72.0"
+  }, 
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+    
   }
 }
