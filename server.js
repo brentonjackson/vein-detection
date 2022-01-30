@@ -8,7 +8,7 @@ const axios = require('axios');
 
 const {TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER} = process.env;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const twiml = new MessagingResponse();
+
 let twilioClient;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -37,6 +37,7 @@ function deleteMediaItem(mediaItem) {
 
 const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
 async function handleIncomingMMS(req, res){
+    const twiml = new MessagingResponse();
     if (req.Body != null) {
         twiml.message('Send us an image!');
         return;
@@ -60,6 +61,7 @@ async function handleIncomingMMS(req, res){
     res.send(response.toString()).status(200);
 }
 async function handleIncomingSMS(req, res) {
+    const twiml = new MessagingResponse();
     let message = req.body.Body;
     let regex = new RegExp('[a-zA-Z0-9]');
     if (!regex.test(message)) {
