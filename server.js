@@ -38,7 +38,7 @@ function deleteMediaItem(mediaItem) {
 const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
 async function handleIncomingMMS(req, res){
     const twiml = new MessagingResponse();
-    if (req.Body != null) {
+    if (req.body.Body != "") {
         twiml.message('Send us an image!');
         return;
     }
