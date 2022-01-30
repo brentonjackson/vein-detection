@@ -1,6 +1,19 @@
 import os
 import numpy as np
 import cv2
+import serial
+
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+CODE_LED_ON = int(1)
+CODE_LED_OFF = int(0)
+CODE_CHANGE_MOTOR_SPEED = int(3)
+
+def turnLedOn():
+        ser.write(CODE_LED_ON.to_bytes(1, byteorder='little'))
+             
+def turnLedOff():
+        ser.write(CODE_LED_OFF.to_bytes(1, byteorder='little'))
+
 
 maxValue = 150
 cropSize = 4
@@ -34,12 +47,16 @@ def processImage(img):
     #print(isVein)
     return isVein
 
-cap = cv2.VideoCapture('http://172.22.50.203:8080/video')
+cap = cv2.VideoCapture('http://172.22.50.203:6677/videofeed')
 
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
-    processImage(frame)
+    isVein = processImage(frame)
+    if isVein:
+        turnLedOn()
+    else:
+        turnLedOff()
     # Our operations on the frame come here
 #    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
