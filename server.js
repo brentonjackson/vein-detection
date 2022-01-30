@@ -7,6 +7,7 @@ const urlUtil = require('url');
 
 const {TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER} = process.env;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const twiml = new MessagingResponse();
 let images = [];
 let twilioClient;
 
@@ -37,30 +38,23 @@ function deleteMediaItem(mediaItem) {
 async function handleIncomingMMS(req, res){
     const { body } = req;
     const { NumMedia, From: SenderNumber, MessageSid } = body;
-    let saveOperation = [];
     const mediaUrl = body['MediaUrl0'];
     const contentType = body['MediaContentType0'];
     const extension = extName.mime(contentType)[0].ext;
     const mediaSid = path.basename(urlUtil.parse(mediaUrl).pathname);
     const filename = `${mediaSid}.${extension}`;
     const mediaItem = { mediaSid, MessageSid, mediaUrl, filename };
-    saveOperation.push(saveMedia(mediaItem));
     twiml.message(mediaUrl)
 
     const messageBody = NumMedia === 0 ?
     'Send us an image!' :
     `Identification received`;
 
-    const response = new MessagingResponse();
-    response.message({
-      from: TWILIO_NUMBER,
-      to: SenderNumber,
-    }, messageBody);
+    twiml.message(messageBody);
 
     res.send(response.toString()).status(200);
 }
 async function handleIncomingSMS(req, res) {
-    const twiml = new MessagingResponse();
     let message = req.body.Body;
     let regex = new RegExp('[a-zA-Z0-9]');
     if (!regex.test(message)) {
@@ -71,7 +65,6 @@ async function handleIncomingSMS(req, res) {
     
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
-    
 }
 let getRecentImages = () => {return images;}
 let clearRecentImages = () => {images = [];}
