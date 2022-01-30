@@ -6,15 +6,11 @@ const extName = require('ext-name');
 const urlUtil = require('url');
 const fs = require('fs');
 
-const PUBLIC_DIR = './public/mms_images';
 const {TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER} = process.env;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 let images = [];
 let twilioClient;
 
-if (!fs.existsSync(PUBLIC_DIR)) {
-    fs.mkdirSync(path.resolve(PUBLIC_DIR));
-}
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -38,23 +34,7 @@ function deleteMediaItem(mediaItem) {
         .messages(mediaItem.MessageSid)
         .media(mediaItem.mediaSid).remove();
 }
-async function saveMedia(mediaItem) {
-    const { mediaUrl, filename } = mediaItem;
-    if (NODE_ENV !== 'test') {
-      const fullPath = path.resolve(`${PUBLIC_DIR}/${filename}`);
 
-      if (!fs.existsSync(fullPath)) {
-        const response = await fetch(mediaUrl);
-        const fileStream = fs.createWriteStream(fullPath);
-
-        response.body.pipe(fileStream);
-
-        deleteMediaItem(mediaItem);
-      }
-
-      images.push(filename);
-    }
-}
 async function handleIncomingMMS(req, res){
     const { body } = req;
     const { NumMedia, From: SenderNumber, MessageSid } = body;
@@ -66,7 +46,6 @@ async function handleIncomingMMS(req, res){
     const filename = `${mediaSid}.${extension}`;
     const mediaItem = { mediaSid, MessageSid, mediaUrl, filename };
     saveOperation.push(saveMedia(mediaItem));
-    await Promise.all(saveOperation);
     
     // const mediaItems = [];
     // for (var i = 0; i < NumMedia; i++) {  // eslint-disable-line
