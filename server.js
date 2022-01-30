@@ -48,16 +48,14 @@ async function handleIncomingMMS(req, res){
     if (supportedContent.includes(contentType)) {
         messageBody = `Identification received`;
     }
-    res.writeHead(200, {'Content-Type': contentType});
-    res.end(twiml.toString());
-
     axios.get(`https://api.ocr.space/parse/imageurl?apikey=${process.env.OCR_API_KEY}&url=${mediaUrl}`)
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+    res.send(response.toString()).status(200);
 }
 async function handleIncomingSMS(req, res) {
     let message = req.body.Body;
