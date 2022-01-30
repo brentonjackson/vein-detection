@@ -35,23 +35,19 @@ function deleteMediaItem(mediaItem) {
         .media(mediaItem.mediaSid).remove();
 }
 
+const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
 async function handleIncomingMMS(req, res){
+    if (res.contentType == 'text/html' || res.contentType == 'text/xml') {
+        twiml.message('Send us an image!');
+        return;
+    }
     const { body } = req;
-    const { NumMedia, From: SenderNumber, MessageSid } = body;
     const mediaUrl = body['MediaUrl0'];
     const contentType = body['MediaContentType0'];
-    const extension = extName.mime(contentType)[0].ext;
-    const mediaSid = path.basename(urlUtil.parse(mediaUrl).pathname);
-    const filename = `${mediaSid}.${extension}`;
-    const mediaItem = { mediaSid, MessageSid, mediaUrl, filename };
-    const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
     let messageBody;
     if (supportedContent.includes(contentType)) {
         messageBody = `Identification received`;
-    } else {
-        messageBody = 'Send us an image!';
     }
-    twiml.message(messageBody);
     res.writeHead(200, {'Content-Type': contentType});
     res.end(twiml.toString());
 
