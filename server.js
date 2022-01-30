@@ -37,7 +37,7 @@ function deleteMediaItem(mediaItem) {
 
 const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
 async function handleIncomingMMS(req, res){
-    if (res.contentType == 'text/html' || res.contentType == 'text/xml') {
+    if (res.body.Body != null) {
         twiml.message('Send us an image!');
         return;
     }
@@ -46,11 +46,13 @@ async function handleIncomingMMS(req, res){
     const contentType = body['MediaContentType0'];
     let messageBody;
     if (supportedContent.includes(contentType)) {
+        console.log(contentType);
         messageBody = `Identification received`;
     }
     axios.get(`https://api.ocr.space/parse/imageurl?apikey=${process.env.OCR_API_KEY}&url=${mediaUrl}`)
     .then(response => {
         console.log(response.data);
+        twiml.message(response.data)
     })
     .catch(error => {
         console.log(error);
@@ -71,7 +73,7 @@ async function handleIncomingSMS(req, res) {
 }
 
 app.post('/mms', handleIncomingMMS);
-app.post('/sms', handleIncomingSMS);
+app.post('/sms', handleIncomingMMS);
 
 http.createServer(app).listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}`);
