@@ -8,7 +8,6 @@ const urlUtil = require('url');
 const {TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER} = process.env;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const twiml = new MessagingResponse();
-let images = [];
 let twilioClient;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -66,15 +65,9 @@ async function handleIncomingSMS(req, res) {
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
 }
-let getRecentImages = () => {return images;}
-let clearRecentImages = () => {images = [];}
-let fetchRecentImages = (req, res) => {
-    res.status(200).send(getRecentImages());
-    clearRecentImages();
-}
+
 app.post('/mms', handleIncomingMMS);
 app.post('/sms', handleIncomingSMS);
-app.get('/images', fetchRecentImages);
 
 http.createServer(app).listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}`);
