@@ -118,7 +118,7 @@ app.post('/sms', handleIncomingSMS);
 app.get('/images', fetchRecentImages);
 
 http.createServer(app).listen(PORT, () => {
-  console.log('Express server listening on port 1337');
+  console.log(`Express server listening on port ${PORT}`);
 });
 
 
