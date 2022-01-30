@@ -43,7 +43,6 @@ async function handleIncomingMMS(req, res){
     const mediaSid = path.basename(urlUtil.parse(mediaUrl).pathname);
     const filename = `${mediaSid}.${extension}`;
     const mediaItem = { mediaSid, MessageSid, mediaUrl, filename };
-    twiml.message(mediaUrl)
 
     const messageBody = NumMedia === 0 ?
     'Send us an image!' :
@@ -51,7 +50,8 @@ async function handleIncomingMMS(req, res){
 
     twiml.message(messageBody);
 
-    res.send(response.toString()).status(200);
+    res.writeHead(200, {'Content-Type': contentType});
+    res.end(twiml.toString());
 }
 async function handleIncomingSMS(req, res) {
     let message = req.body.Body;
