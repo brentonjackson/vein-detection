@@ -119,15 +119,15 @@ a:hover {
 }
 
 a.red {
-	color: #ff556e;
+	color: #FFB310;
 }
 
 .btn-solid-reg {
 	display: inline-block;
 	padding: 1.1875rem 2.125rem 1.1875rem 2.125rem;
-	border: 0.125rem solid #ff556e;
+	border: 0.125rem solid #FFB310;
 	border-radius: 2rem;
-	background-color: #ff556e;
+	background-color: #FFB310;
 	color: #fff;
 	font: 700 0.875rem/0 "Open Sans", sans-serif;
 	text-decoration: none;
@@ -135,18 +135,18 @@ a.red {
 }
 
 .btn-solid-reg:hover {
-	border: 0.125rem solid #ff556e;
+	border: 0.125rem solid #FFB310;
 	background-color: transparent;
-	color: #ff556e;
+	color: #FFB310;
 	text-decoration: none;
 }
 
 .btn-solid-lg {
 	display: inline-block;
 	padding: 1.5rem 2.375rem 1.5rem 2.375rem;
-	border: 0.125rem solid #ff556e;
+	border: 0.125rem solid #FFB310;
 	border-radius: 2rem;
-	background-color: #ff556e;
+	background-color: #FFB310;
 	color: #fff;
 	font: 700 0.875rem/0 "Open Sans", sans-serif;
 	text-decoration: none;
@@ -154,9 +154,9 @@ a.red {
 }
 
 .btn-solid-lg:hover {
-	border: 0.125rem solid #ff556e;
+	border: 0.125rem solid #FFB310;
 	background-color: transparent;
-	color: #ff556e;
+	color: #FFB310;
 	text-decoration: none;
 }
 
@@ -661,7 +661,7 @@ input[type='checkbox'] {
 
 .navbar-custom .nav-item .nav-link:hover,
 .navbar-custom .nav-item .nav-link.active {
-	color: #ff556e;
+	color: #F8F1DE;
 }
 
 /* Dropdown Menu */
@@ -710,7 +710,7 @@ input[type='checkbox'] {
 }
 
 .navbar-custom .dropdown-item:hover .item-text {
-	color: #ff556e;
+	color: #FFB310;
 }
 
 .navbar-custom .dropdown-divider {
@@ -727,13 +727,13 @@ input[type='checkbox'] {
 	margin-top: 0.125rem;
 	margin-bottom: 1.375rem;
 	margin-left: 0.5rem;
-	border: 0.125rem solid #ff556e;
-	color: #ff556e;
+	border: 0.125rem solid #FFB310;
+	color: #FFB310;
 }
 
 .navbar-custom .nav-item .btn-outline-sm:hover {
-	border: 0.125rem solid #ff556e;
-	background-color: #ff556e;
+	border: 0.125rem solid #FFB310;
+	background-color: #FFB310;
 	color: #fff;
 }
 
@@ -1042,12 +1042,12 @@ input[type='checkbox'] {
 }
 
 .tabs .nav-link.active {
-	background-color: #9a67e7;
+	background-color: #FFB310;
 	color: #fff;
 }
 
 .tabs .nav-link:hover {
-	background-color: #9a67e7;
+	background-color: #FFB310;
 	color: #fff;
 }
 
@@ -1666,7 +1666,7 @@ a:hover.back-to-top {
 
 	.navbar-custom.top-nav-collapse .nav-item .nav-link:hover,
 	.navbar-custom.top-nav-collapse .nav-item .nav-link.active {
-		color: #ff556e;
+		color: #FFB310;
 	}
 
 	.navbar-custom .dropdown-menu {
@@ -2041,7 +2041,6 @@ a:hover.back-to-top {
 	}
 
 	.tabs .tabs-container {
-		margin-top: 6rem;
 		margin-right: 2.5rem;
 	}
 	/* end of description 2 */
