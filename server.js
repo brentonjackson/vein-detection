@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const extName = require('ext-name');
 const urlUtil = require('url');
+const axios = require('axios');
 
 const {TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER} = process.env;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
@@ -43,15 +44,24 @@ async function handleIncomingMMS(req, res){
     const mediaSid = path.basename(urlUtil.parse(mediaUrl).pathname);
     const filename = `${mediaSid}.${extension}`;
     const mediaItem = { mediaSid, MessageSid, mediaUrl, filename };
-
-    const messageBody = NumMedia === 0 ?
-    'Send us an image!' :
-    `Identification received`;
-
+    const supportedContent = ['image/jpeg','image/jpg','image/gif','image/png'];
+    let messageBody;
+    if (supportedContent.includes(contentType)) {
+        messageBody = `Identification received`;
+    } else {
+        messageBody = 'Send us an image!';
+    }
     twiml.message(messageBody);
-
     res.writeHead(200, {'Content-Type': contentType});
     res.end(twiml.toString());
+
+    axios.get(`https://api.ocr.space/parse/imageurl?apikey=${process.env.OCR_API_KEY}&url=${mediaUrl}`)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 async function handleIncomingSMS(req, res) {
     let message = req.body.Body;
